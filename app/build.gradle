@@ -1,0 +1,125 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.bidanet.android"
+        minSdkVersion 19
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    //
+
+    //    compile 'com.snappydb:snappydb-lib:0.5.2'
+
+    //    compile 'com.esotericsoftware.kryo:kryo:2.24.0'
+
+    //    testCompile 'junit:junit:4.12'
+
+    //    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    //
+
+    //
+
+    //    compile 'com.github.campusappcn.AndRouter:router:1.2.7'
+
+    //
+
+    //
+
+    //    //日志logger
+
+    //    compile 'com.orhanobut:logger:1.15'
+
+    //
+
+    //    compile('com.github.ihsanbal:LoggingInterceptor:2.0.0') {
+
+    //        exclude group: 'org.json', module: 'json'
+
+    //    }
+
+    //    compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+
+    //    //万能下拉刷新
+
+    //    compile 'com.huxq17.xrefreshview:xrefreshview:3.6.0'
+
+    //
+
+    //
+
+    //    //    EventBus
+
+    //    compile 'org.greenrobot:eventbus:3.0.0'
+
+    //
+
+    //    //dialog
+
+    //    compile 'me.drakeet.materialdialog:library:1.3.1'
+
+    //
+
+    //
+
+    //    //网络
+
+    //    //
+
+    //    compile 'io.reactivex:rxjava:1.1.0'
+
+    //    compile 'io.reactivex:rxandroid:1.1.0'
+
+    //    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+
+    //    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+
+    //    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+
+    //
+
+    //    compile 'com.trello:rxlifecycle:1.0'
+
+    //
+
+    //// If you want to bind to Android-specific lifecycles
+
+    //    compile 'com.trello:rxlifecycle-android:1.0'
+
+    //
+
+    //// If you want pre-written Activities and Fragments you can subclass as providers
+
+    //    compile 'com.trello:rxlifecycle-components:1.0'
+    compile project(':androidcommon')
+}
+repositories {
+    mavenCentral()
+}
