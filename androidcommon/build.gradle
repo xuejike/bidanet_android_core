@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 25
@@ -23,6 +22,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -41,7 +43,7 @@ dependencies {
 
 //    安卓路由
     compile 'com.github.campusappcn.AndRouter:router:1.2.8'
-    apt 'com.github.campusappcn.AndRouter:compiler:1.2.8'
+//    apt 'com.github.campusappcn.AndRouter:compiler:1.2.8'
 
 
     //日志logger
