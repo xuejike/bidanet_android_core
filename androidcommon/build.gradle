@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 25
@@ -38,8 +39,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-
-    compile 'com.github.campusappcn.AndRouter:router:1.2.7'
+//    安卓路由
+    compile 'com.github.campusappcn.AndRouter:router:1.2.8'
+    apt 'com.github.campusappcn.AndRouter:compiler:1.2.8'
 
 
     //日志logger

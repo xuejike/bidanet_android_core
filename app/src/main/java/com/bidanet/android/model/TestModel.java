@@ -9,6 +9,7 @@ import com.bidanet.android.common.utils.http.api.ApiResult;
 import com.bidanet.android.common.utils.http.impl.DefaultLoadingDialog;
 import com.bidanet.android.service.UserInfo;
 
+import cn.campusapp.router.Router;
 import rx.Observable;
 
 /**
@@ -36,5 +37,9 @@ public class TestModel {
             }
         },new DefaultLoadingDialog(v.getContext()));
         name="ss"+1;
+    }
+
+    public void goNext(View view){
+        Router.open("activity://testSecond/");
     }
 }
