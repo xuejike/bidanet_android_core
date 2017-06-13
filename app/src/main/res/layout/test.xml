@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="item"
@@ -26,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="跳转"
-            android:onClick="@{item.goNext}"/>
+            android:id="@+id/btn_go_next"/>
         <ListView
             android:layout_width="match_parent"
             android:id="@+id/list"
@@ -37,7 +38,14 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ig_123"
-            />
+            app:imageUrl="@{item.imageUrl}"
+            app:goNext="@{`activity://testSecond/`}"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{item.check}"
+            android:onClick="@{item.getView}"/>
+
     </LinearLayout>
 </layout>

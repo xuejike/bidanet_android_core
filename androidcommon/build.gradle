@@ -71,6 +71,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    compile 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
 
     compile 'com.trello:rxlifecycle:1.0'
 
@@ -79,4 +80,7 @@ dependencies {
 
 // If you want pre-written Activities and Fragments you can subclass as providers
     compile 'com.trello:rxlifecycle-components:1.0'
+
+    //图片加载
+    compile 'com.github.bumptech.glide:glide:3.5.2'
 }

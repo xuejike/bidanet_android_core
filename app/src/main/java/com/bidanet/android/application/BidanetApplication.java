@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.bidanet.android.BR;
+import com.bidanet.android.R;
 import com.bidanet.android.activity.TestSecondActivity;
 import com.bidanet.android.common.CommonConfig;
 
@@ -28,7 +29,9 @@ public class BidanetApplication extends Application {
         super.onCreate();
         application=this;
         CommonConfig.dataBind(BR.item);
-        CommonConfig.http("http://192.168.18.89");
+        CommonConfig.http("http://192.168.18.89" , this);
+        CommonConfig.imageGlide(R.mipmap.ic_launcher , R.mipmap.ic_launcher);
+
 
         Router.initActivityRouter(getApplicationContext(), new IActivityRouteTableInitializer() {
             @Override

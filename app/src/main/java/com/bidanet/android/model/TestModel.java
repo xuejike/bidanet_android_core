@@ -1,8 +1,12 @@
 package com.bidanet.android.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioButton;
 
+import com.bidanet.android.BR;
 import com.bidanet.android.common.utils.http.ApiResultCallBack;
 import com.bidanet.android.common.utils.http.HttpMethod;
 import com.bidanet.android.common.utils.http.api.ApiResult;
@@ -16,8 +20,10 @@ import rx.Observable;
  * Created by xuejike on 2017/5/25.
  */
 
-public class TestModel {
+public class TestModel extends BaseModel{
+    private boolean check;
     private String name;
+    private String imageUrl;
 
     public String getName() {
         return name;
@@ -25,6 +31,14 @@ public class TestModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void load(View v){
@@ -40,6 +54,22 @@ public class TestModel {
     }
 
     public void goNext(View view){
-        Router.open("activity://testSecond/");
+//        Router.open("activity://testSecond/");
     }
+
+    @Bindable
+    public boolean isCheck() {
+        return check;
+    }
+
+    public void setCheck(boolean check) {
+        this.check = check;
+        notifyPropertyChanged(BR.check);
+    }
+
+    public void getView(View view){
+        check = ((RadioButton)view).isChecked();
+        notifyPropertyChanged(BR.check);
+    }
+
 }

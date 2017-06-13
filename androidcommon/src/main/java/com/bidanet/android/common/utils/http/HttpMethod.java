@@ -1,8 +1,11 @@
 package com.bidanet.android.common.utils.http;
 
+import android.content.Context;
+
 import com.bidanet.android.common.CommonConfig;
 
 import com.bidanet.android.common.exception.BaseException;
+import com.bidanet.android.common.utils.http.Cookies.CookiesManager;
 import com.bidanet.android.common.utils.http.api.ApiException;
 import com.bidanet.android.common.utils.http.api.NoLoginException;
 import com.bidanet.android.common.utils.http.impl.DefaultApiResultHandler;
@@ -19,6 +22,7 @@ import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.fastjson.FastJsonConverterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
@@ -34,6 +38,7 @@ public class HttpMethod<K> {
     protected static int DEFAULT_TIMEOUT=3;
     protected static Retrofit HTTP;
     protected String baseUrl;
+    protected Context context;
     protected ApiResultHandler apiResultHandler;
     protected LoadingDialog loadingDialog=new LoadingDialog() {
         @Override
@@ -60,9 +65,10 @@ public class HttpMethod<K> {
      * 初始化
      * @param baseUrl
      */
-    public static void init(String baseUrl){
+    public static void init(String baseUrl , Context context){
         INSTANCE = new HttpMethod();
         INSTANCE.baseUrl=baseUrl;
+        INSTANCE.context = context;
         INSTANCE.apiResultHandler=new DefaultApiResultHandler();
         INSTANCE.createHttp();
     }
@@ -124,9 +130,13 @@ public class HttpMethod<K> {
             httpClientBuilder.addInterceptor(httpLoggingInterceptor);
         }
 
+        OkHttpClient client = new OkHttpClient.Builder().cookieJar(new CookiesManager(context)).build();
+
         HTTP = new Retrofit.Builder()
                 .client(httpClientBuilder.build())
-                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .addConverterFactory(FastJsonConverterFactory.create())
+//                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(baseUrl)
                 .build();
