@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class BaseModel extends BaseObservable{
 
     public void setOnItemClick(AdapterView<?> parent, View view, int position, long id){
-        Toast.makeText(view.getContext() , "点击了" + position  , Toast.LENGTH_SHORT).show();
+
     }
 
 }
