@@ -1,26 +1,24 @@
 package com.bidanet.android.model;
 
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
 import com.bidanet.android.BR;
+import com.bidanet.android.common.adapter.*;
 import com.bidanet.android.common.utils.http.ApiResultCallBack;
 import com.bidanet.android.common.utils.http.HttpMethod;
 import com.bidanet.android.common.utils.http.api.ApiResult;
 import com.bidanet.android.common.utils.http.impl.DefaultLoadingDialog;
 import com.bidanet.android.service.UserInfo;
 
-import cn.campusapp.router.Router;
 import rx.Observable;
 
 /**
  * Created by xuejike on 2017/5/25.
  */
 
-public class TestModel extends BaseModel{
+public class TestModel extends com.bidanet.android.common.adapter.BaseModel{
     private boolean check;
     private String name;
     private String imageUrl;

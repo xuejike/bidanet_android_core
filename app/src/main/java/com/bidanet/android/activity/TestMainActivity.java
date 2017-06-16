@@ -66,17 +66,8 @@ public class TestMainActivity extends RxAppCompatActivity {
             testModel1.setName("model+"+i);
             testModels.add(testModel1);
         }
-
-        t.list.setAdapter(new DataBindAdapter<TestModel>(this,testModels,R.layout.item));
-
-        t.btnGoNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testModel.setCheck(!testModel.isCheck());
-            }
-        });
-
-//        ImageGlide.showImageWithErrAndPlaceholder(this , t.ig123 , "http://img5.imgtn.bdimg.com/it/u=238602954,1953794501&fm=26&gp=0.jpg");
+        t.setListData(testModels);
+        t.setItemId(BR.item);
 
 
     }
