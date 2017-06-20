@@ -31,7 +31,7 @@ public class ImageGlide {
      */
     public static void showImage(Context context , ImageView imageView , String url){
         Glide.with(context)
-                .load("http://inthecheesefactory.com/uploads/source/glidepicasso/cover.jpg")
+                .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
     }
