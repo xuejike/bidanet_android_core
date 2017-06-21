@@ -23,6 +23,10 @@ public class CommonConfig {
         DataBindAdapter.BIND_ITEM_ID=itemId;
     }
 
+    public static void dataBindIndex(int indexId){
+        DataBindAdapter.BIND_ITEM_INDEX_ID = indexId;
+    }
+
     public static void imageGlide(int errorImg , int placeholderImg){
         ImageGlide.init(errorImg , placeholderImg);
     }

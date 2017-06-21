@@ -3,6 +3,7 @@ package com.bidanet.android.model;
 import android.databinding.Bindable;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.bidanet.android.BR;
 import com.bidanet.android.common.adapter.*;
@@ -68,6 +69,13 @@ public class TestModel extends com.bidanet.android.common.adapter.BaseModel{
     public void getView(View view){
         check = ((RadioButton)view).isChecked();
         notifyPropertyChanged(BR.check);
+    }
+
+
+    public void click(View view , int position){
+
+        Toast.makeText(view.getContext() , "位置：" + position , Toast.LENGTH_SHORT).show();
+
     }
 
 }

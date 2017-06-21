@@ -20,10 +20,12 @@ import java.util.Map;
 public class DataBindAdapter<T> extends BaseAdapter {
 
     public static int BIND_ITEM_ID;
+    public static int BIND_ITEM_INDEX_ID;
     private Context mContext;
     private List<T> data;
     private int layout;
     private int itemId=BIND_ITEM_ID ;
+    private int item_index=BIND_ITEM_INDEX_ID ;
     private Map<Integer,Object> commonData;
 
     public DataBindAdapter(Context mContext, List<T> data, int layout) {
@@ -83,6 +85,7 @@ public class DataBindAdapter<T> extends BaseAdapter {
         }
         //通过binding设置当前的item对象，然后它就会自动给textview赋值
         binding.setVariable(itemId,data.get(position));
+        binding.setVariable(item_index , position);
         //绑定公有数据
         if (this.commonData!=null){
             for (Map.Entry<Integer, Object> entry : commonData.entrySet()) {

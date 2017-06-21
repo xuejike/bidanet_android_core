@@ -29,6 +29,7 @@ public class BidanetApplication extends Application {
         super.onCreate();
         application=this;
         CommonConfig.dataBind(BR.item);
+        CommonConfig.dataBindIndex(BR.item_index);
         CommonConfig.http("http://192.168.18.89" , this);
         CommonConfig.imageGlide(R.mipmap.ic_launcher , R.mipmap.ic_launcher);
 

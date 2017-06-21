@@ -5,6 +5,7 @@
         <variable
             name="item"
             type="com.bidanet.android.model.TestModel"/>
+
         <variable
             name="listData"
             type="java.util.ArrayList"/>
