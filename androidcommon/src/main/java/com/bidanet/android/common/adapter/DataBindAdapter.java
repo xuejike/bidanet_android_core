@@ -28,6 +28,10 @@ public class DataBindAdapter<T> extends BaseAdapter {
     private int item_index=BIND_ITEM_INDEX_ID ;
     private Map<Integer,Object> commonData;
 
+    public void setData(List<T> data) {
+        this.data = data;
+    }
+
     public DataBindAdapter(Context mContext, List<T> data, int layout) {
         this.mContext = mContext;
         this.data = data;
