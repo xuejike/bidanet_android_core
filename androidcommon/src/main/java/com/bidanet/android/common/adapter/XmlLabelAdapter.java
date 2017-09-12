@@ -51,7 +51,8 @@ public class XmlLabelAdapter {
         if (adapter==null){
             adapterView.setAdapter(new DataBindAdapter(adapterView.getContext() , data , view));
         }else{
-            if (adapter instanceof WrapperListAdapter){
+
+            while (adapter instanceof WrapperListAdapter){
                 adapter=((WrapperListAdapter) adapter).getWrappedAdapter();
             }
 
