@@ -6,11 +6,14 @@ import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.bidanet.android.common.BR;
+import com.bidanet.android.common.exception.BaseException;
 import com.bidanet.android.common.utils.ImageGlide;
 
 import java.util.List;
@@ -41,7 +44,17 @@ public class XmlLabelAdapter {
 
     @BindingAdapter({"adapter_data", "adapter_view"})
     public static void setAdapter(AdapterView adapterView , List data , int view){
-        adapterView.setAdapter(new DataBindAdapter(adapterView.getContext() , data , view));
+        Adapter adapter = adapterView.getAdapter();
+        if (adapter==null){
+            adapterView.setAdapter(new DataBindAdapter(adapterView.getContext() , data , view));
+        }else{
+            if (adapter instanceof BaseAdapter){
+                ((BaseAdapter) adapter).notifyDataSetChanged();
+            }else {
+                throw new BaseException("适配器并不是 BaseAdapter");
+            }
+        }
+
     }
 
     @BindingAdapter({"on_item_click"})
