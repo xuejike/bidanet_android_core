@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.WrapperListAdapter;
 
 import com.bidanet.android.common.BR;
 import com.bidanet.android.common.exception.BaseException;
@@ -49,9 +51,13 @@ public class XmlLabelAdapter {
         if (adapter==null){
             adapterView.setAdapter(new DataBindAdapter(adapterView.getContext() , data , view));
         }else{
+            if (adapter instanceof WrapperListAdapter){
+                adapter=((WrapperListAdapter) adapter).getWrappedAdapter();
+            }
+
             if (adapter instanceof BaseAdapter){
                 ((BaseAdapter) adapter).notifyDataSetChanged();
-            }else {
+            }else{
 //                throw new BaseException("适配器并不是 BaseAdapter");
                 Log.d("无法自动刷新");
             }
