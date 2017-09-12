@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.bidanet.android.common.BR;
 import com.bidanet.android.common.exception.BaseException;
 import com.bidanet.android.common.utils.ImageGlide;
+import com.bidanet.android.common.utils.Log;
 
 import java.util.List;
 
@@ -51,7 +52,8 @@ public class XmlLabelAdapter {
             if (adapter instanceof BaseAdapter){
                 ((BaseAdapter) adapter).notifyDataSetChanged();
             }else {
-                throw new BaseException("适配器并不是 BaseAdapter");
+//                throw new BaseException("适配器并不是 BaseAdapter");
+                Log.d("无法自动刷新");
             }
         }
 
