@@ -85,7 +85,7 @@ public class HttpMethod<K> {
      * 创建 HTTP服务
      */
     protected void createHttp(){
-        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder().cookieJar(new CookiesManager(context));
         httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 
         /**
@@ -130,11 +130,11 @@ public class HttpMethod<K> {
             httpClientBuilder.addInterceptor(httpLoggingInterceptor);
         }
 
-        OkHttpClient client = new OkHttpClient.Builder().cookieJar(new CookiesManager(context)).build();
+//        OkHttpClient client = new OkHttpClient.Builder().build();
 
         HTTP = new Retrofit.Builder()
                 .client(httpClientBuilder.build())
-                .client(client)
+//                .client(client)
                 .addConverterFactory(FastJsonConverterFactory.create())
 //                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
