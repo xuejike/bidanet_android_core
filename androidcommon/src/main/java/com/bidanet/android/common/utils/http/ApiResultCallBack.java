@@ -5,8 +5,23 @@ package com.bidanet.android.common.utils.http;
  */
 
 public abstract class ApiResultCallBack<T> {
+    /**
+     * 执行成功
+     * @param data
+     */
     public abstract void success(T data);
+
+    /**
+     * 完成
+     */
     public void completed(){
+
+    }
+
+    /**
+     * 异常、错误 必须调用接口
+     */
+    public void errorFinish(){
 
     }
 
