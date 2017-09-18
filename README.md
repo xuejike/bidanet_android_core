@@ -1,4 +1,5 @@
-# bidanet_android_core
+# bidanet_android_core[![](https://jitpack.io/v/xuejike/bidanet_android_core.svg)](https://jitpack.io/#xuejike/bidanet_android_core)
+
 
 # 功能说明
 
