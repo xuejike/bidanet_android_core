@@ -12,18 +12,12 @@ public abstract class ApiResultCallBack<T> {
     public abstract void success(T data);
 
     /**
-     * 完成
+     * 请求-完成（包含成功和失败回调）
      */
     public void completed(){
 
     }
 
-    /**
-     * 异常、错误 必须调用接口
-     */
-    public void errorFinish(){
-
-    }
 
     /**
      * 业务异常

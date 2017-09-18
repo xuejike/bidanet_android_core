@@ -209,7 +209,7 @@ public class HttpMethod<K> {
                 }else{
                     apiResultCallBack.exception(e.getMessage(),e);
                 }
-                apiResultCallBack.errorFinish();
+                apiResultCallBack.completed();
             }
 
             @Override
