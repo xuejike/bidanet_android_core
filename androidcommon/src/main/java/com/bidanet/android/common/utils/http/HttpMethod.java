@@ -109,10 +109,11 @@ public class HttpMethod<K> {
                 }
 
                 FormBody.Builder newFormBody = new FormBody.Builder();
-//                if (request.body() instanceof FormBody) {
-                FormBody oidFormBody = (FormBody) request.body();
-                for (int i = 0; i < oidFormBody.size(); i++) {
-                    newFormBody.addEncoded(oidFormBody.encodedName(i), oidFormBody.encodedValue(i));
+                if (request.body() instanceof FormBody) {
+                    FormBody oidFormBody = (FormBody) request.body();
+                    for (int i = 0; i < oidFormBody.size(); i++) {
+                        newFormBody.addEncoded(oidFormBody.encodedName(i), oidFormBody.encodedValue(i));
+                    }
                 }
 
                 if (formParams != null) {
@@ -120,7 +121,6 @@ public class HttpMethod<K> {
                         newFormBody.add(entry.getKey(), entry.getValue());
                     }
                 }
-//                }
 
                 Request.Builder builder = request.newBuilder()
                         .method(request.method(), newFormBody.build())
