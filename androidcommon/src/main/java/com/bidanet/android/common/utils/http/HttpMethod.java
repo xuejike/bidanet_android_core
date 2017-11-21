@@ -15,10 +15,12 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -35,12 +37,12 @@ import rx.schedulers.Schedulers;
  */
 
 public class HttpMethod<K> {
-    protected static int DEFAULT_TIMEOUT=3;
+    protected static int DEFAULT_TIMEOUT = 3;
     protected static Retrofit HTTP;
     protected String baseUrl;
     protected Context context;
     protected ApiResultHandler apiResultHandler;
-    protected LoadingDialog loadingDialog=new LoadingDialog() {
+    protected LoadingDialog loadingDialog = new LoadingDialog() {
         @Override
         public void show() {
 
@@ -53,23 +55,25 @@ public class HttpMethod<K> {
     };
 
 
-    public static Map<String,String> urlParams;
-    public static Map<String,String> headers;
+    public static Map<String, String> urlParams;
+    public static Map<String, String> headers;
+    public static Map<String, String> formParams;
     public static HttpMethod INSTANCE;
 
-    private HttpMethod(){
+    private HttpMethod() {
 
     }
 
     /**
      * 初始化
+     *
      * @param baseUrl
      */
-    public static void init(String baseUrl , Context context){
+    public static void init(String baseUrl, Context context) {
         INSTANCE = new HttpMethod();
-        INSTANCE.baseUrl=baseUrl;
+        INSTANCE.baseUrl = baseUrl;
         INSTANCE.context = context;
-        INSTANCE.apiResultHandler=new DefaultApiResultHandler();
+        INSTANCE.apiResultHandler = new DefaultApiResultHandler();
         INSTANCE.createHttp();
     }
 
@@ -84,7 +88,7 @@ public class HttpMethod<K> {
     /**
      * 创建 HTTP服务
      */
-    protected void createHttp(){
+    protected void createHttp() {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder().cookieJar(new CookiesManager(context));
         httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 
@@ -98,20 +102,28 @@ public class HttpMethod<K> {
 
                 HttpUrl.Builder authorizedUrlBuilder = request.url()
                         .newBuilder();
-                if (urlParams!=null){
+                if (urlParams != null) {
                     for (Map.Entry<String, String> entry : urlParams.entrySet()) {
-                        authorizedUrlBuilder.addQueryParameter(entry.getKey(),entry.getValue());
+                        authorizedUrlBuilder.addQueryParameter(entry.getKey(), entry.getValue());
+                    }
+                }
+                FormBody.Builder builder1 = new FormBody.Builder();
+                if (formParams != null) {
+                    for (Map.Entry<String, String> entry : urlParams.entrySet()) {
+                        builder1.add(entry.getKey(), entry.getValue());
                     }
                 }
 
                 Request.Builder builder = request.newBuilder()
+                        .put(builder1.build())
                         .method(request.method(), request.body())
                         .url(authorizedUrlBuilder.build())
                         //对所有请求添加请求头
+
                         .header("mobileFlag", "android");
-                if (headers!=null){
+                if (headers != null) {
                     for (Map.Entry<String, String> entry : headers.entrySet()) {
-                        builder.addHeader(entry.getKey(),entry.getValue());
+                        builder.addHeader(entry.getKey(), entry.getValue());
                     }
                 }
 
@@ -119,11 +131,11 @@ public class HttpMethod<K> {
                 Request newRequest = builder.build();
 
 
-                return  chain.proceed(newRequest);
+                return chain.proceed(newRequest);
             }
         });
         //日志输出
-        if (CommonConfig.DEBUG){
+        if (CommonConfig.DEBUG) {
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -142,8 +154,8 @@ public class HttpMethod<K> {
                 .build();
     }
 
-    public static Retrofit getHttp(){
-        if (HTTP==null){
+    public static Retrofit getHttp() {
+        if (HTTP == null) {
             throw new BaseException("HttpMethod 未初始化");
         }
         return HTTP;
@@ -153,22 +165,23 @@ public class HttpMethod<K> {
 
     /**
      * HTTP请求结果统一处理
+     *
      * @param obs
      * @param lt
      * @param apiResultHandler
      * @param <T>
      * @return
      */
-    public  <T> Observable<T>  toSubscribe(Observable<K> obs, LifecycleTransformer lt, final ApiResultHandler<K> apiResultHandler){
+    public <T> Observable<T> toSubscribe(Observable<K> obs, LifecycleTransformer lt, final ApiResultHandler<K> apiResultHandler) {
         Observable<K> compose;
         //1.处理生命周期
-        if (lt!=null){
-            compose= obs.compose(lt);
-        }else{
-            compose=obs;
+        if (lt != null) {
+            compose = obs.compose(lt);
+        } else {
+            compose = obs;
         }
 
-        Observable<T> map =apiResultHandler.resultMap(compose);
+        Observable<T> map = apiResultHandler.resultMap(compose);
 
         return map.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -177,12 +190,13 @@ public class HttpMethod<K> {
 
 
     }
-    public  <T> Observable<T>  toSubscribe(Observable<K> obs, LifecycleTransformer lt){
-        return toSubscribe(obs,lt,apiResultHandler);
+
+    public <T> Observable<T> toSubscribe(Observable<K> obs, LifecycleTransformer lt) {
+        return toSubscribe(obs, lt, apiResultHandler);
     }
 
     public <T> void apiResult(Observable<K> obs, LifecycleTransformer lt,
-                              final ApiResultCallBack<T> apiResultCallBack, final LoadingDialog loadingDialog){
+                              final ApiResultCallBack<T> apiResultCallBack, final LoadingDialog loadingDialog) {
         Observable<T> observable = toSubscribe(obs, lt, apiResultHandler);
         observable.doOnSubscribe(new Action0() {
             @Override
@@ -199,15 +213,14 @@ public class HttpMethod<K> {
             @Override
             public void onError(Throwable e) {
                 loadingDialog.dismiss();
-                if (e instanceof IOException){
+                if (e instanceof IOException) {
                     apiResultCallBack.networkError(e);
-                }else if(e instanceof NoLoginException){
+                } else if (e instanceof NoLoginException) {
                     apiResultCallBack.noLoginError(e);
-                }
-                else if (e instanceof ApiException ){
+                } else if (e instanceof ApiException) {
                     apiResultCallBack.error(e.getMessage());
-                }else{
-                    apiResultCallBack.exception(e.getMessage(),e);
+                } else {
+                    apiResultCallBack.exception(e.getMessage(), e);
                 }
                 apiResultCallBack.completed();
             }
@@ -222,7 +235,7 @@ public class HttpMethod<K> {
 
 
     public <T> void apiResult(Observable<K> obs, LifecycleTransformer lt,
-                              final ApiResultCallBack<T> apiResultCallBack){
-        apiResult(obs, lt, apiResultCallBack,loadingDialog);
+                              final ApiResultCallBack<T> apiResultCallBack) {
+        apiResult(obs, lt, apiResultCallBack, loadingDialog);
     }
 }
