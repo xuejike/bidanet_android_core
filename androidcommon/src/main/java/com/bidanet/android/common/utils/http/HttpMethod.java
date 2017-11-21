@@ -107,16 +107,23 @@ public class HttpMethod<K> {
                         authorizedUrlBuilder.addQueryParameter(entry.getKey(), entry.getValue());
                     }
                 }
-                FormBody.Builder builder1 = new FormBody.Builder();
-                if (formParams != null) {
-                    for (Map.Entry<String, String> entry : urlParams.entrySet()) {
-                        builder1.add(entry.getKey(), entry.getValue());
-                    }
+
+                FormBody.Builder newFormBody = new FormBody.Builder();
+//                if (request.body() instanceof FormBody) {
+                FormBody oidFormBody = (FormBody) request.body();
+                for (int i = 0; i < oidFormBody.size(); i++) {
+                    newFormBody.addEncoded(oidFormBody.encodedName(i), oidFormBody.encodedValue(i));
                 }
 
+                if (formParams != null) {
+                    for (Map.Entry<String, String> entry : urlParams.entrySet()) {
+                        newFormBody.add(entry.getKey(), entry.getValue());
+                    }
+                }
+//                }
+
                 Request.Builder builder = request.newBuilder()
-                        .put(builder1.build())
-                        .method(request.method(), request.body())
+                        .method(request.method(), newFormBody.build())
                         .url(authorizedUrlBuilder.build())
                         //对所有请求添加请求头
 
