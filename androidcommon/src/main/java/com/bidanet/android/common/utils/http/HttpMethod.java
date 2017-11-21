@@ -121,12 +121,16 @@ public class HttpMethod<K> {
                         newFormBody.add(entry.getKey(), entry.getValue());
                     }
                 }
-
+                RequestBody body;
+                if (request.method().equals("POST")) {
+                    body = newFormBody.build();
+                }else {
+                    body = request.body();
+                }
                 Request.Builder builder = request.newBuilder()
-                        .method(request.method(), newFormBody.build())
+                        .method(request.method(), body)
                         .url(authorizedUrlBuilder.build())
                         //对所有请求添加请求头
-
                         .header("mobileFlag", "android");
                 if (headers != null) {
                     for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -134,9 +138,7 @@ public class HttpMethod<K> {
                     }
                 }
 
-
                 Request newRequest = builder.build();
-
 
                 return chain.proceed(newRequest);
             }
