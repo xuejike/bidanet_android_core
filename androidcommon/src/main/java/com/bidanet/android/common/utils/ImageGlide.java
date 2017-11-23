@@ -45,6 +45,14 @@ public class ImageGlide {
                 .into(imageView);
     }
 
+    public static void showImageWithErr(Context context , ImageView imageView , String url){
+        Glide.with(context)
+                .load(url)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(errorImg)
+                .into(imageView);
+    }
+
     public static void downloadImg(Context context , String url){
 
     }

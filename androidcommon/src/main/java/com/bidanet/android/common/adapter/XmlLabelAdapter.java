@@ -35,6 +35,11 @@ public class XmlLabelAdapter {
         ImageGlide.showImageWithErrAndPlaceholder(view.getContext(), view, url);
     }
 
+    @BindingAdapter({"imageHeadUrl"})
+    public static void imageHeadUrl(ImageView view, String url) {
+        ImageGlide.showImageWithErr(view.getContext(), view, url);
+    }
+
     @BindingAdapter({"goNext"})
     public static void goNext(View view, final String url) {
         view.setOnClickListener(new View.OnClickListener() {
